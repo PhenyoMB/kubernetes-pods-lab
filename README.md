@@ -78,8 +78,6 @@ kubectl port-forward pod/nginx 8080:80
 kubectl run -it --rm curl --image=curlimages/curl:8.4.0 --restart=Never -- http://$NGINX_IP
 ```
 
-**What/why:** Instead of installing `curl` on a node or leaving a debug pod running indefinitely, this spins up a temporary Pod purely to make one HTTP request, then deletes itself. This "run a throwaway pod" pattern is a very common real-world debugging technique for testing connectivity from *inside* the cluster network.
-
 **Flags:**
 - `-it` — interactive terminal, so you can see the curl output live.
 - `--rm` — deletes the Pod automatically once it exits, avoiding leftover debug pods.
@@ -202,7 +200,7 @@ labs/
 
 ## Reflection
 
-> This lab really solidified for me that a Pod isn't just "a container" — it's a network sandbox that one or more containers share, which is why sidecars can talk over `localhost` and why `kubectl logs`/`exec` need a `-c` flag once there's more than one container involved. Testing pod connectivity from a completely different node than the one running the Pod made the "every Pod gets a cluster-wide routable IP" concept concrete rather than theoretical. I also came away with a much clearer mental model of `create` vs `apply` — and why almost everyone recommends `apply` for anything beyond a quick one-off test. Small syntax mistakes (a missing `--`, a missing `=`) were some of the most instructive moments, since fixing them forced me to understand exactly what kubectl was doing with those flags in the first place.
+This lab really solidified for me that a Pod isn't just "a container" — it's a network sandbox that one or more containers share, which is why sidecars can talk over `localhost` and why `kubectl logs`/`exec` need a `-c` flag once there's more than one container involved. Testing pod connectivity from a completely different node than the one running the Pod made the "every Pod gets a cluster-wide routable IP" concept concrete rather than theoretical. I also came away with a much clearer mental model of `create` vs `apply` — and why almost everyone recommends `apply` for anything beyond a quick one-off test. Small syntax mistakes (a missing `--`, a missing `=`) were some of the most instructive moments, since fixing them forced me to understand exactly what kubectl was doing with those flags in the first place.
 
 ---
 
