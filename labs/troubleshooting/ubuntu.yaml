@@ -1,1 +1,17 @@
-
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: ubuntu
+  name: ubuntu
+spec:
+  containers:
+  - args:
+    - sleep
+    - infinity
+    image: ubuntu
+    imagePullPolicy: Always
+    name: ubuntu
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
